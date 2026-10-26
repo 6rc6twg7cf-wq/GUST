@@ -1278,7 +1278,7 @@
             border-color: var(--bd2);
         }
 
-        .gust-tooltip {
+        .Emmet-tooltip {
             position: fixed;
             background: rgba(13, 17, 23, 0.95);
             color: #fff;
@@ -1628,7 +1628,7 @@
         }
 
         
-        .gust-highlight {
+        .Emmet-highlight {
             outline: 2px solid var(--ac, #9de5ff) !important;
             outline-offset: 1px !important;
             box-shadow: 0 0 0 4px rgba(157, 229, 255, 0.2), inset 0 0 0 9999px rgba(157, 229, 255, 0.08) !important;
@@ -1991,27 +1991,27 @@
             line-height: 1;
         }
 
-        @keyframes gust-letter {
+        @keyframes Emmet-letter {
             0%   { opacity: 0; transform: translateX(-28px) skewX(-12deg); filter: blur(6px); }
             60%  { opacity: 1; transform: translateX(3px)  skewX(2deg);   filter: blur(0px); }
             80%  { transform: translateX(-1px) skewX(-0.5deg); }
             100% { opacity: 1; transform: translateX(0)    skewX(0deg);   filter: blur(0px); }
         }
-        @keyframes gust-icon {
+        @keyframes Emmet-icon {
             0%   { opacity: 0; transform: translateX(-44px); filter: blur(8px); }
             65%  { opacity: 1; transform: translateX(4px);   filter: blur(0px); }
             100% { opacity: 1; transform: translateX(0); }
         }
-        @keyframes gust-badge {
+        @keyframes Emmet-badge {
             0%   { opacity: 0; }
             100% { opacity: 1; }
         }
-        .gust-icon-anim  { animation: gust-icon   0.7s  cubic-bezier(0.22,1,0.36,1) both; }
-        .gust-letter-G   { animation: gust-letter 0.65s cubic-bezier(0.22,1,0.36,1) 0.10s both; }
-        .gust-letter-U   { animation: gust-letter 0.65s cubic-bezier(0.22,1,0.36,1) 0.20s both; }
-        .gust-letter-S   { animation: gust-letter 0.65s cubic-bezier(0.22,1,0.36,1) 0.30s both; }
-        .gust-letter-T   { animation: gust-letter 0.65s cubic-bezier(0.22,1,0.36,1) 0.40s both; }
-        .gust-badge-anim { animation: gust-badge  0.5s  ease-out               0.90s both; }
+        .Emmet-icon-anim  { animation: Emmet-icon   0.7s  cubic-bezier(0.22,1,0.36,1) both; }
+        .Emmet-letter-G   { animation: Emmet-letter 0.65s cubic-bezier(0.22,1,0.36,1) 0.10s both; }
+        .Emmet-letter-U   { animation: Emmet-letter 0.65s cubic-bezier(0.22,1,0.36,1) 0.20s both; }
+        .Emmet-letter-S   { animation: Emmet-letter 0.65s cubic-bezier(0.22,1,0.36,1) 0.30s both; }
+        .Emmet-letter-T   { animation: Emmet-letter 0.65s cubic-bezier(0.22,1,0.36,1) 0.40s both; }
+        .Emmet-badge-anim { animation: Emmet-badge  0.5s  ease-out               0.90s both; }
 
         .nt-brand i {
             font-size: 4.05rem;
@@ -3147,62 +3147,62 @@
         }
 
         /* ── Per-icon hover animations ── */
-        @keyframes _gust-pulse   { 0%,100%{transform:scale(1)}  50%{transform:scale(1.22)} }
-        @keyframes _gust-spin    { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-        @keyframes _gust-spinrev { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
-        @keyframes _gust-bob     { 0%,100%{transform:translateY(0)}  40%{transform:translateY(-4px)} 70%{transform:translateY(2px)} }
-        @keyframes _gust-shake   { 0%,100%{transform:rotate(0)}  20%{transform:rotate(-12deg)} 50%{transform:rotate(12deg)} 75%{transform:rotate(-7deg)} }
-        @keyframes _gust-ping    { 0%{transform:scale(1)} 40%{transform:scale(1.28)} 65%{transform:scale(.88)} 100%{transform:scale(1)} }
-        @keyframes _gust-tilt    { 0%,100%{transform:rotate(0deg)} 30%{transform:rotate(-14deg)} 70%{transform:rotate(10deg)} }
-        @keyframes _gust-pop     { 0%{transform:scale(1)} 35%{transform:scale(1.3)} 60%{transform:scale(.92)} 80%{transform:scale(1.08)} 100%{transform:scale(1)} }
-        @keyframes _gust-beam    { 0%,100%{transform:scaleX(1) scaleY(1)} 40%{transform:scaleX(1.2) scaleY(.85)} 70%{transform:scaleX(.9) scaleY(1.1)} }
+        @keyframes _Emmet-pulse   { 0%,100%{transform:scale(1)}  50%{transform:scale(1.22)} }
+        @keyframes _Emmet-spin    { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        @keyframes _Emmet-spinrev { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
+        @keyframes _Emmet-bob     { 0%,100%{transform:translateY(0)}  40%{transform:translateY(-4px)} 70%{transform:translateY(2px)} }
+        @keyframes _Emmet-shake   { 0%,100%{transform:rotate(0)}  20%{transform:rotate(-12deg)} 50%{transform:rotate(12deg)} 75%{transform:rotate(-7deg)} }
+        @keyframes _Emmet-ping    { 0%{transform:scale(1)} 40%{transform:scale(1.28)} 65%{transform:scale(.88)} 100%{transform:scale(1)} }
+        @keyframes _Emmet-tilt    { 0%,100%{transform:rotate(0deg)} 30%{transform:rotate(-14deg)} 70%{transform:rotate(10deg)} }
+        @keyframes _Emmet-pop     { 0%{transform:scale(1)} 35%{transform:scale(1.3)} 60%{transform:scale(.92)} 80%{transform:scale(1.08)} 100%{transform:scale(1)} }
+        @keyframes _Emmet-beam    { 0%,100%{transform:scaleX(1) scaleY(1)} 40%{transform:scaleX(1.2) scaleY(.85)} 70%{transform:scaleX(.9) scaleY(1.1)} }
 
         /* Connection — wired: pulse like signal */
         .settings-nav-item[data-section="connection"]:hover i {
-            animation: _gust-pulse .55s cubic-bezier(.34,1.56,.64,1) forwards;
+            animation: _Emmet-pulse .55s cubic-bezier(.34,1.56,.64,1) forwards;
         }
         /* Search — magnifying glass: bob/bounce */
         .settings-nav-item[data-section="search"]:hover i {
-            animation: _gust-bob .45s ease forwards;
+            animation: _Emmet-bob .45s ease forwards;
         }
         /* Privacy — shield: ping (protective thump) */
         .settings-nav-item[data-section="privacy"]:hover i {
-            animation: _gust-ping .4s ease forwards;
+            animation: _Emmet-ping .4s ease forwards;
         }
         /* Cache — database: beam (squish like stacking) */
         .settings-nav-item[data-section="cache"]:hover i {
-            animation: _gust-beam .45s ease forwards;
+            animation: _Emmet-beam .45s ease forwards;
         }
         /* Files & Media — film: shake (like a film reel clatter) */
         .settings-nav-item[data-section="filesandmedia"]:hover i {
-            animation: _gust-shake .45s ease forwards;
+            animation: _Emmet-shake .45s ease forwards;
         }
         /* Appearance — palette: spin */
         .settings-nav-item[data-section="appearance"]:hover i {
-            animation: _gust-spin .5s cubic-bezier(.34,1.56,.64,1) forwards;
+            animation: _Emmet-spin .5s cubic-bezier(.34,1.56,.64,1) forwards;
         }
         /* Home Screen — house: bob */
         .settings-nav-item[data-section="homescreen"]:hover i {
-            animation: _gust-bob .42s ease forwards;
+            animation: _Emmet-bob .42s ease forwards;
         }
         /* Shortcuts — keyboard: tilt (like pressing a key) */
         .settings-nav-item[data-section="shortcuts"]:hover i {
-            animation: _gust-tilt .4s ease forwards;
+            animation: _Emmet-tilt .4s ease forwards;
         }
         /* Language — globe: spin reverse (like a globe turning) */
         .settings-nav-item[data-section="language"]:hover i {
-            animation: _gust-spinrev .55s cubic-bezier(.34,1.56,.64,1) forwards;
+            animation: _Emmet-spinrev .55s cubic-bezier(.34,1.56,.64,1) forwards;
         }
         /* Tutorial — map: pop */
         .settings-nav-item[data-section="tutorial"]:hover i {
-            animation: _gust-pop .45s ease forwards;
+            animation: _Emmet-pop .45s ease forwards;
         }
         /* About — info circle: pulse */
         .settings-nav-item[data-section="about"]:hover i {
-            animation: _gust-pulse .45s cubic-bezier(.34,1.56,.64,1) forwards;
+            animation: _Emmet-pulse .45s cubic-bezier(.34,1.56,.64,1) forwards;
         }
         /* Fallback — rotate-left: elastic rewind (retry/rollback feel) */
-        @keyframes _gust-rewind {
+        @keyframes _Emmet-rewind {
             0%   { transform: rotate(0deg) scale(1); }
             30%  { transform: rotate(-200deg) scale(1.18); }
             65%  { transform: rotate(-340deg) scale(0.92); }

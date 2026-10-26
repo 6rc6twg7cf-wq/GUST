@@ -54,7 +54,7 @@
   // ── Per-instance storage isolation ────────────────────────────────
   // Each downloaded copy of this file gets a unique instance ID so
   // that multiple tabs/windows (all on file://) never share data.
-  const _INST_META_KEY = "__gust_inst__";
+  const _INST_META_KEY = "__Emmet_inst__";
   let _INST_ID;
   try {
     _INST_ID = window._sessionInstId;
@@ -132,7 +132,7 @@
 
   let WISP = (function () {
     try {
-      return ls.getItem("gust:wisp:v1") || "wss://wisp.rhw.one/wisp/";
+      return ls.getItem("Emmet:wisp:v1") || "wss://wisp.rhw.one/wisp/";
     } catch {
       return "wss://wisp.rhw.one/wisp/";
     }
@@ -260,7 +260,7 @@
   let navId = 0;
   let selectedEngine = (function () {
     try {
-      return ls.getItem("gust:engine:v1") || "brave";
+      return ls.getItem("Emmet:engine:v1") || "brave";
     } catch {
       return "brave";
     }
@@ -271,9 +271,9 @@
   let cachedHits = 0;
   let streamCount = 0;
   let idleTimer = null;
-  const HOME_INTERNAL = "gust://newtab";
+  const HOME_INTERNAL = "Emmet://newtab";
 
-  const SETTINGS_INTERNAL = "gust://settings";
+  const SETTINGS_INTERNAL = "Emmet://settings";
 
   const VALID_SETTINGS_SECTIONS = new Set([
     "connection",
@@ -292,15 +292,15 @@
 
   function isSettingsPage(url) {
     return (
-      url === SETTINGS_INTERNAL || (url && url.startsWith("gust://settings/"))
+      url === SETTINGS_INTERNAL || (url && url.startsWith("Emmet://settings/"))
     );
   }
 
   function isInvalidInternal(url) {
-    if (!url || !url.startsWith("gust://")) return false;
+    if (!url || !url.startsWith("Emmet://")) return false;
     if (url === HOME_INTERNAL || url === SETTINGS_INTERNAL) return false;
-    if (url.startsWith("gust://settings/")) {
-      const section = url.replace("gust://settings/", "").split("/")[0];
+    if (url.startsWith("Emmet://settings/")) {
+      const section = url.replace("Emmet://settings/", "").split("/")[0];
       return !VALID_SETTINGS_SECTIONS.has(section);
     }
     return true;
@@ -321,7 +321,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Error - Gust Browser</title>
+    <title>Error - Emmet's Browser</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
@@ -571,9 +571,9 @@
 </head>
 <body>
     <div class="error-content">
-        <div class="error-brand" onclick="window.parent.postMessage({t:'n', u:'gust://newtab'}, '*')">
+        <div class="error-brand" onclick="window.parent.postMessage({t:'n', u:'Emmet://newtab'}, '*')">
             <i class="fas fa-wind"></i>
-            <span>GUST</span>
+            <span>Emmet</span>
         </div>
         
         <div class="error-header">
@@ -638,15 +638,15 @@
     "forest",
     "abstract",
   ];
-  const WALLPAPER_STORAGE_KEY = "gust:newtab-wallpaper:v1";
-  const FAV_KEY = "gust:favorites:v1";
-  const BM_KEY = "gust:bookmarks:v1";
+  const WALLPAPER_STORAGE_KEY = "Emmet:newtab-wallpaper:v1";
+  const FAV_KEY = "Emmet:favorites:v1";
+  const BM_KEY = "Emmet:bookmarks:v1";
   let favorites = [];
   const defaultBookmarks = [];
   let bookmarks = [];
   let blockEnabled = (function () {
     try {
-      const saved = ls.getItem("gust:block:v1");
+      const saved = ls.getItem("Emmet:block:v1");
       return saved !== null ? saved === "true" : true;
     } catch {
       return true;
@@ -656,7 +656,7 @@
   let panelWidthPersist = true;
   let wallpaperIdx = 0;
 
-  const TAB_CACHE_KEY = "gust:tabs:v1";
+  const TAB_CACHE_KEY = "Emmet:tabs:v1";
 
   function saveTabs() {
     try {
@@ -851,7 +851,7 @@
     // 3. postMessage so any future media created inside the frame is also muted
     try {
       frame.contentWindow?.postMessage(
-        { type: "gust:setMuted", muted: !!muted },
+        { type: "Emmet:setMuted", muted: !!muted },
         "*",
       );
     } catch (e) {}
@@ -928,10 +928,10 @@
     if (tab.url === HOME_INTERNAL) {
       showNewTab(false);
     } else if (isSettingsPage(tab.url)) {
-      const section = tab.url.replace("gust://settings/", "") || "connection";
+      const section = tab.url.replace("Emmet://settings/", "") || "connection";
       showSettingsPage(
         false,
-        section === "gust://settings" ? "connection" : section,
+        section === "Emmet://settings" ? "connection" : section,
       );
     } else if (tab.blobSrc) {
       newtab.classList.remove("active");
@@ -1495,14 +1495,14 @@
 
   let MAX_CONCURRENT = (function () {
     try {
-      return parseInt(ls.getItem("gust:idlethreads:v1")) || 6;
+      return parseInt(ls.getItem("Emmet:idlethreads:v1")) || 6;
     } catch {
       return 6;
     }
   })();
   let MAX_CONCURRENT_ACTIVE = (function () {
     try {
-      return parseInt(ls.getItem("gust:activethreads:v1")) || 6;
+      return parseInt(ls.getItem("Emmet:activethreads:v1")) || 6;
     } catch {
       return 6;
     }
@@ -1564,7 +1564,7 @@
     "div[data-ad-unit]",
   ];
 
-  const FILTER_KEY = "gust:custom-filters:v1";
+  const FILTER_KEY = "Emmet:custom-filters:v1";
   let cachedCustomFilters = null;
   let _filterObserverReady = false;
   function getCustomFilters() {
@@ -1659,7 +1659,7 @@
       const u = new URL(url);
       const proxyFavicons = (() => {
         try {
-          return ls.getItem("gust:favicon-proxy:v1") === "1";
+          return ls.getItem("Emmet:favicon-proxy:v1") === "1";
         } catch {
           return false;
         }
@@ -1973,7 +1973,7 @@
       !url ||
       url === HOME_INTERNAL ||
       isSettingsPage(url) ||
-      url.startsWith("gust://")
+      url.startsWith("Emmet://")
     ) {
       securityChip.classList.add("secure");
       if (securityIcon) securityIcon.className = "fas fa-lock";
@@ -2000,7 +2000,7 @@
     const now = new Date();
     const h = now.getHours();
     const mm = String(now.getMinutes()).padStart(2, "0");
-    const use24hr = ls.getItem("gust:24hrclock:v1") === "true";
+    const use24hr = ls.getItem("Emmet:24hrclock:v1") === "true";
     if (use24hr) {
       if (ntTime)
         ntTime.childNodes[0].textContent = `${String(h).padStart(2, "0")}:${mm} `;
@@ -2200,30 +2200,30 @@
     ntFavorites.appendChild(addWrapper);
   }
 
-  let _gustAnimLocked = false;
-  let _gustAnimTimer = null;
+  let _EmmetAnimLocked = false;
+  let _EmmetAnimTimer = null;
 
-  function playGustAnimation(delay) {
-    if (_gustAnimLocked) return;
+  function playEmmetAnimation(delay) {
+    if (_EmmetAnimLocked) return;
 
     const getBrandEls = () => {
-      const icon = document.querySelector(".nt-brand .gust-icon-anim");
+      const icon = document.querySelector(".nt-brand .Emmet-icon-anim");
       const letters = document.querySelectorAll(
-        ".nt-brand .gust-letter-G, .nt-brand .gust-letter-U, .nt-brand .gust-letter-S, .nt-brand .gust-letter-T",
+        ".nt-brand .Emmet-letter-G, .nt-brand .Emmet-letter-U, .nt-brand .Emmet-letter-S, .nt-brand .Emmet-letter-T",
       );
-      const badge = document.querySelector(".nt-brand .gust-badge-anim");
+      const badge = document.querySelector(".nt-brand .Emmet-badge-anim");
       return [icon, ...letters, badge].filter(Boolean);
     };
     getBrandEls().forEach((el) => {
       el.style.animation = "none";
       el.style.opacity = "0";
     });
-    if (_gustAnimTimer) {
-      clearTimeout(_gustAnimTimer);
-      _gustAnimTimer = null;
+    if (_EmmetAnimTimer) {
+      clearTimeout(_EmmetAnimTimer);
+      _EmmetAnimTimer = null;
     }
-    _gustAnimTimer = setTimeout(() => {
-      _gustAnimTimer = null;
+    _EmmetAnimTimer = setTimeout(() => {
+      _EmmetAnimTimer = null;
       getBrandEls().forEach((el) => {
         el.style.opacity = "";
         el.style.animation = "";
@@ -2254,7 +2254,7 @@
     updateClock();
     loadSavedWallpaper();
     renderFavorites();
-    playGustAnimation();
+    playEmmetAnimation();
     if (push) {
       hist = hist.slice(0, histIdx + 1);
       hist.push(HOME_INTERNAL);
@@ -2278,7 +2278,7 @@
   function setBlockEnabled(on) {
     blockEnabled = !!on;
     try {
-      ls.setItem("gust:block:v1", blockEnabled ? "true" : "false");
+      ls.setItem("Emmet:block:v1", blockEnabled ? "true" : "false");
     } catch (e) {}
     if (blockToggle) {
       blockToggle.classList.toggle("on", blockEnabled);
@@ -2324,7 +2324,7 @@
 
   function loadTabCacheEnabled() {
     try {
-      const saved = ls.getItem("gust:tabcache:v1");
+      const saved = ls.getItem("Emmet:tabcache:v1");
       if (saved !== null) tabCacheEnabled = saved === "true";
     } catch (e) {}
   }
@@ -2332,7 +2332,7 @@
   function setTabCacheEnabled(val) {
     tabCacheEnabled = val;
     try {
-      ls.setItem("gust:tabcache:v1", val ? "true" : "false");
+      ls.setItem("Emmet:tabcache:v1", val ? "true" : "false");
     } catch (e) {}
   }
 
@@ -2345,14 +2345,14 @@
   }
 
   try {
-    const saved = ls.getItem("gust:panelwidthpersist:v1");
+    const saved = ls.getItem("Emmet:panelwidthpersist:v1");
     if (saved !== null) panelWidthPersist = saved === "true";
   } catch (e) {}
 
   function setPanelWidthPersist(val) {
     panelWidthPersist = val;
     try {
-      ls.setItem("gust:panelwidthpersist:v1", val ? "true" : "false");
+      ls.setItem("Emmet:panelwidthpersist:v1", val ? "true" : "false");
     } catch (e) {}
   }
 
@@ -2387,7 +2387,7 @@
   function inspectCurrentPage() {
     if (pageUrl === HOME_INTERNAL || isSettingsPage(pageUrl)) {
       elementsTree.innerHTML =
-        '<li style="color: var(--tx3); padding: 8px;">Cannot inspect internal Gust pages</li>';
+        '<li style="color: var(--tx3); padding: 8px;">Cannot inspect internal Emmet pages</li>';
       return;
     }
 
@@ -2670,7 +2670,7 @@
         // Reuse the stylesResult rendering by dispatching a fake message
         window.dispatchEvent(
           new MessageEvent("message", {
-            data: { type: "gust:stylesResult", styles },
+            data: { type: "Emmet:stylesResult", styles },
           }),
         );
       } catch (e) {
@@ -2688,7 +2688,7 @@
         window.dispatchEvent(
           new MessageEvent("message", {
             data: {
-              type: "gust:boxResult",
+              type: "Emmet:boxResult",
               box: {
                 width: r.width,
                 height: r.height,
@@ -2768,7 +2768,7 @@
   }
 
   window.addEventListener("message", (e) => {
-    if (e.data?.type === "gust:stylesResult") {
+    if (e.data?.type === "Emmet:stylesResult") {
       if (currentDetailTab !== "styles") return;
       const content = $("elemDetailContent");
       if (!content) return;
@@ -2867,7 +2867,7 @@
       content.innerHTML =
         html || '<span style="color:var(--tx3)">No notable styles</span>';
     }
-    if (e.data?.type === "gust:boxResult") {
+    if (e.data?.type === "Emmet:boxResult") {
       if (currentDetailTab !== "box") return;
       const content = $("elemDetailContent");
       if (!content) return;
@@ -2952,7 +2952,7 @@
   $("ctxScrollTo")?.addEventListener("click", () => {
     if (selectedElement) {
       frame.contentWindow?.postMessage(
-        { type: "gust:scrollTo", selector: getSelector(selectedElement) },
+        { type: "Emmet:scrollTo", selector: getSelector(selectedElement) },
         "*",
       );
     }
@@ -2960,7 +2960,7 @@
   $("ctxHideElement")?.addEventListener("click", () => {
     if (selectedElement) {
       frame.contentWindow?.postMessage(
-        { type: "gust:hideElement", selector: getSelector(selectedElement) },
+        { type: "Emmet:hideElement", selector: getSelector(selectedElement) },
         "*",
       );
     }
@@ -3325,13 +3325,13 @@
   function normUrl(u) {
     u = (u || "").trim();
     if (!u) return "";
-    if (/^gust:\/\/settings(\/.*)?$/i.test(u))
-      return u.toLowerCase().startsWith("gust://settings/")
+    if (/^Emmet:\/\/settings(\/.*)?$/i.test(u))
+      return u.toLowerCase().startsWith("Emmet://settings/")
         ? u
         : SETTINGS_INTERNAL;
-    if (/^gust:\/\/newtab$/i.test(u) || /^about:newtab$/i.test(u))
+    if (/^Emmet:\/\/newtab$/i.test(u) || /^about:newtab$/i.test(u))
       return HOME_INTERNAL;
-    if (u.startsWith("gust://")) return u;
+    if (u.startsWith("Emmet://")) return u;
     try {
       return new URL(u).href;
     } catch {}
@@ -3573,7 +3573,7 @@
     if (!headers["User-Agent"] && !headers["user-agent"]) {
       const _savedReqUA = (() => {
         try {
-          return ls.getItem("gust:ua:request:v1");
+          return ls.getItem("Emmet:ua:request:v1");
         } catch {
           return null;
         }
@@ -3588,7 +3588,7 @@
     if (
       !headers["Sec-Fetch-Mode"] &&
       !headers["sec-fetch-mode"] &&
-      mediaPref("gust:media:headers:v1")
+      mediaPref("Emmet:media:headers:v1")
     ) {
       // Determine correct Sec-Fetch-* values based on request context
       const reqOrigin = (() => {
@@ -3778,7 +3778,7 @@
     // Handle partial content (206) for range requests - return only the requested slice
     let buf;
     const rangeReq =
-      mediaPref("gust:media:range:v1") &&
+      mediaPref("Emmet:media:range:v1") &&
       (headers["Range"] || headers["range"]);
     const isPartial = resp.status === 206;
     if (isPartial || rangeReq) {
@@ -4139,7 +4139,7 @@ try { Object.defineProperty(window, '__webpack_public_path__', { get: () => wind
 //    (e.g. new URL('./chunk.js', import.meta.url)) point at blob:null/… and
 //    fail.  We expose the real page origin so framework resolvers work.
 try {
-  Object.defineProperty(window, '__GUST_REAL_BASE__', { value: BASE, configurable: true });
+  Object.defineProperty(window, '__Emmet_REAL_BASE__', { value: BASE, configurable: true });
 } catch {}
 
 // 2. Next.js reads __NEXT_DATA__.assetPrefix to build /_next/static/… URLs.
@@ -4165,17 +4165,17 @@ try {
 //    the URL constructor so new URL(relative, blobHref) → new URL(relative, BASE).
 try {
   const _OrigURL = window.URL;
-  function _GustURL(url, base) {
+  function _EmmetURL(url, base) {
     if (base && typeof base === 'string' && /^blob:/i.test(base)) {
       base = BASE;
     }
     return new _OrigURL(url, base);
   }
-  _GustURL.createObjectURL = _OrigURL.createObjectURL.bind(_OrigURL);
-  _GustURL.revokeObjectURL = _OrigURL.revokeObjectURL.bind(_OrigURL);
-  _GustURL.canParse       = _OrigURL.canParse ? _OrigURL.canParse.bind(_OrigURL) : undefined;
-  Object.setPrototypeOf(_GustURL, _OrigURL);
-  try { window.URL = _GustURL; } catch {}
+  _EmmetURL.createObjectURL = _OrigURL.createObjectURL.bind(_OrigURL);
+  _EmmetURL.revokeObjectURL = _OrigURL.revokeObjectURL.bind(_OrigURL);
+  _EmmetURL.canParse       = _OrigURL.canParse ? _OrigURL.canParse.bind(_OrigURL) : undefined;
+  Object.setPrototypeOf(_EmmetURL, _OrigURL);
+  try { window.URL = _EmmetURL; } catch {}
 } catch {}
 // ───────────────────────────────────────────────────────────────────────────
 
@@ -4263,34 +4263,34 @@ window.addEventListener('message', e => {
     if (d.a === 'error') { const evt = new Event('error'); ws.dispatchEvent(evt); ws.onerror?.(evt); }
     if (d.a === 'close') { ws.readyState = 3; const evt = new CloseEvent('close', { code: d.code || 1000, reason: d.reason || '', wasClean: d.wasClean }); ws.dispatchEvent(evt); ws.onclose?.(evt); wsClients.delete(d.i); }
   }
-  if (d.type === 'gust:highlight' && d.selector) {
+  if (d.type === 'Emmet:highlight' && d.selector) {
     try {
-      document.querySelectorAll('.gust-highlight').forEach(el => el.classList.remove('gust-highlight'));
+      document.querySelectorAll('.Emmet-highlight').forEach(el => el.classList.remove('Emmet-highlight'));
       const el = document.querySelector(d.selector);
-      if (el) { el.classList.add('gust-highlight'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      if (el) { el.classList.add('Emmet-highlight'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     } catch (e) {}
   }
-  if (d.type === 'gust:clearHighlight') {
-    try { document.querySelectorAll('.gust-highlight').forEach(el => el.classList.remove('gust-highlight')); } catch(e) {}
+  if (d.type === 'Emmet:clearHighlight') {
+    try { document.querySelectorAll('.Emmet-highlight').forEach(el => el.classList.remove('Emmet-highlight')); } catch(e) {}
   }
-  if (d.type === 'gust:getStyles' && d.selector) {
+  if (d.type === 'Emmet:getStyles' && d.selector) {
     try {
       const el = document.querySelector(d.selector);
       if (el) {
         const cs = getComputedStyle(el);
         const styles = {};
         ['display','position','width','height','margin','margin-top','margin-right','margin-bottom','margin-left','padding','padding-top','padding-right','padding-bottom','padding-left','color','background','background-color','font-size','font-weight','font-family','border','border-radius','flex','grid','z-index','overflow','opacity','transform','box-shadow','line-height','text-align'].forEach(p => { styles[p] = cs.getPropertyValue(p); });
-        parent.postMessage({ type: 'gust:stylesResult', styles }, '*');
+        parent.postMessage({ type: 'Emmet:stylesResult', styles }, '*');
       }
     } catch(e) {}
   }
-  if (d.type === 'gust:getBox' && d.selector) {
+  if (d.type === 'Emmet:getBox' && d.selector) {
     try {
       const el = document.querySelector(d.selector);
       if (el) {
         const r = el.getBoundingClientRect();
         const cs = getComputedStyle(el);
-        parent.postMessage({ type: 'gust:boxResult', box: {
+        parent.postMessage({ type: 'Emmet:boxResult', box: {
           width: r.width, height: r.height, top: r.top, left: r.left,
           marginTop: cs.marginTop, marginRight: cs.marginRight, marginBottom: cs.marginBottom, marginLeft: cs.marginLeft,
           paddingTop: cs.paddingTop, paddingRight: cs.paddingRight, paddingBottom: cs.paddingBottom, paddingLeft: cs.paddingLeft
@@ -4298,10 +4298,10 @@ window.addEventListener('message', e => {
       }
     } catch(e) {}
   }
-  if (d.type === 'gust:scrollTo' && d.selector) {
+  if (d.type === 'Emmet:scrollTo' && d.selector) {
     try { document.querySelector(d.selector)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e) {}
   }
-  if (d.type === 'gust:spellcheck') {
+  if (d.type === 'Emmet:spellcheck') {
     try { document.querySelectorAll('input, textarea').forEach(el => el.spellcheck = !!d.enabled); } catch(e) {}
   }
 });
@@ -4633,14 +4633,14 @@ function processEl(el) {
       if (poster && !/^(data:|blob:)/i.test(poster) && !el.getAttribute('data-real-poster')) el.poster = poster;
     }
   }
-  // Defuse anchor hrefs: store real URL in data-gust-href, set href to javascript:void(0)
+  // Defuse anchor hrefs: store real URL in data-Emmet-href, set href to javascript:void(0)
   // so the browser can NEVER navigate the iframe natively via a link click.
   if (tag === 'A') {
     const href = el.getAttribute('href');
     if (href && !/^(javascript:|#|data:|blob:|mailto:|tel:)/i.test(href)) {
       try {
         const abs = resolve(href);
-        el.setAttribute('data-gust-href', abs);
+        el.setAttribute('data-Emmet-href', abs);
         el.setAttribute('href', 'javascript:void(0)');
       } catch {}
     }
@@ -4665,14 +4665,14 @@ const observer = new MutationObserver(muts => {
 observer.observe(document, { childList: true, subtree: true });
 
 // Pre-defuse all existing anchors on initial load.
-// Store real URL in data-gust-href, set href=javascript:void(0) so the
+// Store real URL in data-Emmet-href, set href=javascript:void(0) so the
 // browser can never navigate the iframe natively from a link click.
 document.querySelectorAll('a[href], area[href]').forEach(a => {
   const href = a.getAttribute('href');
   if (href && !/^(javascript:|#|data:|blob:|mailto:|tel:)/i.test(href)) {
     try {
       const abs = resolve(href);
-      a.setAttribute('data-gust-href', abs);
+      a.setAttribute('data-Emmet-href', abs);
       a.setAttribute('href', 'javascript:void(0)');
     } catch {}
   }
@@ -4747,7 +4747,7 @@ if (!crypto.randomUUID) {
   };
 }
 
-window.__gustImportScripts = function(...urls) {
+window.__EmmetImportScripts = function(...urls) {
   
   urls.forEach(u => {
     try {
@@ -4766,19 +4766,19 @@ window.__gustImportScripts = function(...urls) {
 document.addEventListener('mousedown', e => {
   const a = e.target?.closest?.('a, area');
   if (!a) return;
-  // Read the real URL from data-gust-href (set by defuse sweep) or fall back to href.
-  const href = a.getAttribute('data-gust-href') || a.getAttribute('href');
+  // Read the real URL from data-Emmet-href (set by defuse sweep) or fall back to href.
+  const href = a.getAttribute('data-Emmet-href') || a.getAttribute('href');
   if (!href || /^(javascript:|#|data:|blob:|mailto:|tel:)/i.test(href)) return;
   try {
     const abs = resolve(href);
-    a._gustHref = abs;
+    a._EmmetHref = abs;
     parent.postMessage({ t: 'hint', u: abs }, '*');
   } catch {}
 }, true);
 document.addEventListener('click', e => {
   const a = e.target?.closest?.('a, area');
   if (!a) return;
-  const href = a._gustHref || a.getAttribute('data-gust-href') || a.getAttribute('href');
+  const href = a._EmmetHref || a.getAttribute('data-Emmet-href') || a.getAttribute('href');
   if (!href) return;
   if (href.startsWith('#')) {
     const id = href.slice(1);
@@ -4789,14 +4789,14 @@ document.addEventListener('click', e => {
     e.preventDefault();
     return;
   }
-  // Skip non-navigatable schemes (javascript:void(0) with no data-gust-href).
+  // Skip non-navigatable schemes (javascript:void(0) with no data-Emmet-href).
   if (/^(javascript:|mailto:|tel:|data:|blob:)/i.test(href)) { return; }
   e.preventDefault();
   e.stopPropagation();
   e.stopImmediatePropagation();
   parent.postMessage({ t: 'n', u: resolve(href) }, '*');
 }, true);
-document.addEventListener('auxclick', e => { if (e.button !== 1) return; const a = e.target?.closest?.('a, area'); if (!a) return; const href = a._gustHref || a.getAttribute('data-gust-href') || a.getAttribute('href'); if (!href || /^(javascript:|#)/i.test(href)) return; e.preventDefault(); e.stopPropagation(); parent.postMessage({ t: 'n', u: resolve(href) }, '*'); }, true);
+document.addEventListener('auxclick', e => { if (e.button !== 1) return; const a = e.target?.closest?.('a, area'); if (!a) return; const href = a._EmmetHref || a.getAttribute('data-Emmet-href') || a.getAttribute('href'); if (!href || /^(javascript:|#)/i.test(href)) return; e.preventDefault(); e.stopPropagation(); parent.postMessage({ t: 'n', u: resolve(href) }, '*'); }, true);
 document.addEventListener('submit', e => { const form = e.target; if (!form || form.tagName !== 'FORM') return; e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); const action = resolve(form.action || BASE); const method = (form.method || 'GET').toUpperCase(); const fd = new FormData(form); if (method === 'GET') { parent.postMessage({ t: 'n', u: action.split('?')[0] + '?' + new URLSearchParams(fd).toString() }, '*'); } else { parent.postMessage({ t: 'n', u: action, m: 'POST', b: new URLSearchParams(fd).toString() }, '*'); } }, true);
 
 const _open = window.open;
@@ -4851,9 +4851,9 @@ if (formTargetDesc) { Object.defineProperty(HTMLFormElement.prototype, 'target',
 const anchorHrefDesc = Object.getOwnPropertyDescriptor(HTMLAnchorElement.prototype, 'href');
 if (anchorHrefDesc && anchorHrefDesc.set) {
   Object.defineProperty(HTMLAnchorElement.prototype, 'href', {
-    // Return data-gust-href (the real URL) if present, so site JS that reads
+    // Return data-Emmet-href (the real URL) if present, so site JS that reads
     // el.href after setting it still gets the correct absolute URL.
-    get() { return this.getAttribute('data-gust-href') || anchorHrefDesc.get.call(this); },
+    get() { return this.getAttribute('data-Emmet-href') || anchorHrefDesc.get.call(this); },
     set(v) {
       // Let the browser normalise the value first (resolves relative paths)
       anchorHrefDesc.set.call(this, v);
@@ -4861,7 +4861,7 @@ if (anchorHrefDesc && anchorHrefDesc.set) {
       if (normalised && !/^(javascript:|#|data:|blob:|mailto:|tel:)/i.test(normalised)) {
         try {
           const abs = resolve(normalised);
-          this.setAttribute('data-gust-href', abs);
+          this.setAttribute('data-Emmet-href', abs);
           anchorHrefDesc.set.call(this, 'javascript:void(0)');
         } catch {}
       }
@@ -4877,11 +4877,11 @@ const _rewriteAnchors = () => {
     if (href && !/^(javascript:|#|data:|blob:|mailto:|tel:)/i.test(href)) {
       try {
         const abs = resolve(href);
-        a.setAttribute('data-gust-href', abs);
+        a.setAttribute('data-Emmet-href', abs);
         a.setAttribute('href', 'javascript:void(0)');
       } catch {}
     }
-    // Also pick up anchors that only have data-gust-href but lost href somehow
+    // Also pick up anchors that only have data-Emmet-href but lost href somehow
     const tgt = (a.getAttribute('target') || '').toLowerCase();
     if (tgt && tgt !== '_self') a.setAttribute('target', '_self');
   });
@@ -4920,7 +4920,7 @@ history.replaceState = function(s, t, u) { if (u) { try { Object.assign(fakeLoc,
 const OrigWorker = window.Worker;
 if (OrigWorker) { window.Worker = function(url, opts) { const absUrl = resolve(url); const w = { onmessage: null, onerror: null, postMessage: () => {}, terminate: () => {}, addEventListener: () => {}, removeEventListener: () => {} }; const p = /^(data:|blob:)/i.test(absUrl) ? _fetch.call(window, absUrl).then(r => r.arrayBuffer()).then(buf => { const arr = new Uint8Array(buf); let bin = ""; for(let i=0; i<arr.length; i++) bin+=String.fromCharCode(arr[i]); return { d: btoa(bin) }; }) : req(absUrl); p.then(r => { const bin = atob(r.d || ''); const arr = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i); const blob = new Blob([arr], { type: 'application/javascript' }); const real = new OrigWorker(URL.createObjectURL(blob), opts); w.postMessage = m => real.postMessage(m); w.terminate = () => real.terminate(); w.addEventListener = (t, fn) => real.addEventListener(t, fn); w.removeEventListener = (t, fn) => real.removeEventListener(t, fn); real.onmessage = e => w.onmessage?.(e); real.onerror = e => w.onerror?.(e); }).catch(e => w.onerror?.(new ErrorEvent('error', { message: e.message }))); return w; }; }
 
-// SharedWorker shim — proxy the script through Gust then run as a plain Worker
+// SharedWorker shim — proxy the script through Emmet then run as a plain Worker
 // (SharedWorkers can't share state across tabs in a single-iframe proxy, but at least
 // the script loads and executes instead of failing with a cross-origin error)
 const OrigSharedWorker = window.SharedWorker;
@@ -4971,14 +4971,14 @@ if (OrigSharedWorker) {
 // WebRTC leak prevention — stub out RTCPeerConnection and getUserMedia
 // so sites can't establish direct connections that bypass the WISP tunnel
 if (WEBRTC_BLOCK) {
-  const _noRTC = function() { throw new DOMException('WebRTC is blocked by Gust', 'NotSupportedError'); };
+  const _noRTC = function() { throw new DOMException('WebRTC is blocked by Emmet', 'NotSupportedError'); };
   try { window.RTCPeerConnection = _noRTC; } catch(e) {}
   try { window.webkitRTCPeerConnection = _noRTC; } catch(e) {}
   try { window.mozRTCPeerConnection = _noRTC; } catch(e) {}
   try { window.RTCDataChannel = _noRTC; } catch(e) {}
   try {
     if (navigator.mediaDevices) {
-      navigator.mediaDevices.getUserMedia = () => Promise.reject(new DOMException('WebRTC is blocked by Gust', 'NotSupportedError'));
+      navigator.mediaDevices.getUserMedia = () => Promise.reject(new DOMException('WebRTC is blocked by Emmet', 'NotSupportedError'));
     }
     navigator.getUserMedia = _noRTC;
     navigator.webkitGetUserMedia = _noRTC;
@@ -5174,7 +5174,7 @@ parent.postMessage({ t: 'ready' }, '*');
       // normalised before the async go() fetch completes.
       if (d.u) {
         const cleaned = normUrl(d.u);
-        if (cleaned && !cleaned.startsWith("gust://")) {
+        if (cleaned && !cleaned.startsWith("Emmet://")) {
           urlInput.value = cleaned;
           pageUrl = cleaned;
           const navTab = getActiveTab();
@@ -5258,7 +5258,7 @@ parent.postMessage({ t: 'ready' }, '*');
       log("[Page] " + (d.a || []).join(" ").slice(0, 300), cls);
     }
     // ── Viewer download: triggered via postMessage from viewer pages ──
-    if (d.t === "gust:download") {
+    if (d.t === "Emmet:download") {
       try {
         const a = document.createElement("a");
         a.href = d.data; // data: URI
@@ -5280,15 +5280,15 @@ parent.postMessage({ t: 'ready' }, '*');
 
   // ── Media pref helpers ─────────────────────────────────────────
   const _MEDIA_DEFAULTS = {
-    "gust:media:pdf:v1": true,
-    "gust:media:img:v1": true,
-    "gust:media:video:v1": true,
-    "gust:media:audio:v1": true,
-    "gust:media:text:v1": true,
-    "gust:media:download:v1": false,
-    "gust:media:range:v1": true,
-    "gust:media:headers:v1": true,
-    "gust:webrtc:block:v1": false,
+    "Emmet:media:pdf:v1": true,
+    "Emmet:media:img:v1": true,
+    "Emmet:media:video:v1": true,
+    "Emmet:media:audio:v1": true,
+    "Emmet:media:text:v1": true,
+    "Emmet:media:download:v1": false,
+    "Emmet:media:range:v1": true,
+    "Emmet:media:headers:v1": true,
+    "Emmet:webrtc:block:v1": false,
   };
   function mediaPref(key) {
     const saved = ls.getItem(key);
@@ -5464,7 +5464,7 @@ parent.postMessage({ t: 'ready' }, '*');
       "    const bytes=b64ToBytes(B64);" +
       '    var bin="";var chunk=32768;' +
       "    for(var i=0;i<bytes.length;i+=chunk)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+chunk));" +
-      '    parent.postMessage({t:"gust:download",data:"data:application/pdf;base64,"+btoa(bin),name:FILENAME},"*");' +
+      '    parent.postMessage({t:"Emmet:download",data:"data:application/pdf;base64,"+btoa(bin),name:FILENAME},"*");' +
       '  }catch(e){console.error("PDF download failed:",e);}' +
       "}" +
       "window.goFirst=goFirst;window.goPrev=goPrev;window.goNext=goNext;window.goLast=goLast;" +
@@ -5510,7 +5510,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
   // Download via parent shell so it reaches the real browser
   const _VIEWER_DL_JS =
-    'function dl(data,name){parent.postMessage({t:"gust:download",data:data,name:name},"*");}';
+    'function dl(data,name){parent.postMessage({t:"Emmet:download",data:data,name:name},"*");}';
 
   function makeImageViewer(buf, filename, mime) {
     const arr = new Uint8Array(buf);
@@ -5690,7 +5690,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
     function buildScript() {
       const DL =
-        'function dl(data,name){parent.postMessage({t:"gust:download",data:data,name:name},"*");}';
+        'function dl(data,name){parent.postMessage({t:"Emmet:download",data:data,name:name},"*");}';
       const rawJ = JSON.stringify(text)
         .replace(/</g, "\\u003c")
         .replace(/>/g, "\\u003e");
@@ -5800,7 +5800,7 @@ parent.postMessage({ t: 'ready' }, '*');
       " &nbsp;&middot;&nbsp; " +
       size +
       "</div>" +
-      '  <p class="hint">Gust doesn\'t have a built-in viewer for this file type.<br>Enable <strong style="color:#b8c4d0">Auto-download</strong> in Files &amp; Media settings to download it instead.</p>' +
+      '  <p class="hint">Emmet doesn\'t have a built-in viewer for this file type.<br>Enable <strong style="color:#b8c4d0">Auto-download</strong> in Files &amp; Media settings to download it instead.</p>' +
       '  <div class="btn-row">' +
       '    <button class="btn btn-primary" onclick="go()"><i class="fas fa-arrow-rotate-left"></i> Go Back</button>' +
       '    <button class="btn btn-sec" onclick="openSettings()"><i class="fas fa-sliders"></i> File Settings</button>' +
@@ -5812,7 +5812,7 @@ parent.postMessage({ t: 'ready' }, '*');
       jUrl +
       ";" +
       'function go(){parent.postMessage({t:"n",u:ORIG},"*");}' +
-      'function openSettings(){parent.postMessage({t:"n",u:"gust://settings/filesandmedia"},"*");}' +
+      'function openSettings(){parent.postMessage({t:"n",u:"Emmet://settings/filesandmedia"},"*");}' +
       "function copyUrl(){" +
       "  if(navigator.clipboard){navigator.clipboard.writeText(ORIG);}" +
       '  else{var ta=document.createElement("textarea");ta.value=ORIG;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);}' +
@@ -5873,7 +5873,7 @@ parent.postMessage({ t: 'ready' }, '*');
       "</div>" +
       '  <div class="btn-row">' +
       '    <button class="dl-btn" onclick="dl(DATA,FILENAME)"><i class="fas fa-download"></i> Download File</button>' +
-      "    <button class=\"sec-btn\" onclick=\"parent.postMessage({t:'n',u:'gust://settings/filesandmedia'},'*')\"><i class=\"fas fa-gear\"></i> File Settings</button>" +
+      "    <button class=\"sec-btn\" onclick=\"parent.postMessage({t:'n',u:'Emmet://settings/filesandmedia'},'*')\"><i class=\"fas fa-gear\"></i> File Settings</button>" +
       "  </div>" +
       "</div>" +
       "<script>" +
@@ -5947,10 +5947,10 @@ parent.postMessage({ t: 'ready' }, '*');
       if (activeTabId === initiatorTabId) showNewTab(push);
       return;
     }
-    if (url === SETTINGS_INTERNAL || url.startsWith("gust://settings/")) {
-      const section = url.replace("gust://settings/", "") || "connection";
+    if (url === SETTINGS_INTERNAL || url.startsWith("Emmet://settings/")) {
+      const section = url.replace("Emmet://settings/", "") || "connection";
       const cleanSection =
-        section === "gust://settings" ? "connection" : section.split("/")[0];
+        section === "Emmet://settings" ? "connection" : section.split("/")[0];
       if (
         url !== SETTINGS_INTERNAL &&
         !VALID_SETTINGS_SECTIONS.has(cleanSection)
@@ -5962,7 +5962,7 @@ parent.postMessage({ t: 'ready' }, '*');
           renderErrorPage(
             url,
             "Unknown Settings Page",
-            "ERR_INVALID_GUST_SETTINGS",
+            "ERR_INVALID_Emmet_SETTINGS",
             `The settings page <code>${url}</code> does not exist.`,
             [
               "Check for typos in the address",
@@ -6027,12 +6027,12 @@ parent.postMessage({ t: 'ready' }, '*');
         renderErrorPage(
           url,
           "Invalid Internal URL",
-          "ERR_INVALID_GUST_URL",
-          `The internal address <code>${url}</code> is not a valid Gust page.`,
+          "ERR_INVALID_Emmet_URL",
+          `The internal address <code>${url}</code> is not a valid Emmet page.`,
           [
             "Check for typos in the address",
             "Use the Home button to return to the search page",
-            "Common pages: gust://newtab, gust://settings",
+            "Common pages: Emmet://newtab, Emmet://settings",
           ],
         );
 
@@ -6158,7 +6158,7 @@ parent.postMessage({ t: 'ready' }, '*');
           url.split("?")[0].split("/").pop() || "file",
         );
 
-        if (_ftype === "pdf" && mediaPref("gust:media:pdf:v1")) {
+        if (_ftype === "pdf" && mediaPref("Emmet:media:pdf:v1")) {
           loadViewerPage(
             makePdfViewer(r.buf, _filename, url),
             _filename,
@@ -6168,7 +6168,7 @@ parent.postMessage({ t: 'ready' }, '*');
           return;
         }
 
-        if (_ftype === "image" && mediaPref("gust:media:img:v1")) {
+        if (_ftype === "image" && mediaPref("Emmet:media:img:v1")) {
           loadViewerPage(
             makeImageViewer(r.buf, _filename, r.mime || "image/png"),
             _filename,
@@ -6178,7 +6178,7 @@ parent.postMessage({ t: 'ready' }, '*');
           return;
         }
 
-        if (_ftype === "video" && mediaPref("gust:media:video:v1")) {
+        if (_ftype === "video" && mediaPref("Emmet:media:video:v1")) {
           loadViewerPage(
             makeVideoViewer(r.buf, _filename, r.mime || "video/mp4"),
             _filename,
@@ -6188,7 +6188,7 @@ parent.postMessage({ t: 'ready' }, '*');
           return;
         }
 
-        if (_ftype === "audio" && mediaPref("gust:media:audio:v1")) {
+        if (_ftype === "audio" && mediaPref("Emmet:media:audio:v1")) {
           loadViewerPage(
             makeAudioViewer(r.buf, _filename, r.mime || "audio/mpeg"),
             _filename,
@@ -6198,7 +6198,7 @@ parent.postMessage({ t: 'ready' }, '*');
           return;
         }
 
-        if (_ftype === "text" && mediaPref("gust:media:text:v1")) {
+        if (_ftype === "text" && mediaPref("Emmet:media:text:v1")) {
           const _text = new TextDecoder("utf-8", { fatal: false }).decode(
             r.buf,
           );
@@ -6212,7 +6212,7 @@ parent.postMessage({ t: 'ready' }, '*');
         }
 
         if (_ftype === "binary") {
-          if (mediaPref("gust:media:download:v1")) {
+          if (mediaPref("Emmet:media:download:v1")) {
             loadViewerPage(
               makeBinaryDownloadPage(
                 r.buf,
@@ -6257,7 +6257,7 @@ parent.postMessage({ t: 'ready' }, '*');
       if (docTitle) setTabTitle(docTitle);
 
       // Remove all CSP and framing meta tags (case-insensitive).
-      // Also intercept <meta http-equiv="refresh"> to route through GUST
+      // Also intercept <meta http-equiv="refresh"> to route through Emmet
       // instead of letting the browser navigate the iframe natively.
       doc.querySelectorAll("meta[http-equiv]").forEach((m) => {
         const val = (m.getAttribute("http-equiv") || "").toLowerCase().trim();
@@ -6321,7 +6321,7 @@ parent.postMessage({ t: 'ready' }, '*');
       // the blob is written to the iframe, so no page JS can interfere.
       doc.querySelectorAll("a, area").forEach((a) => {
         // Strip ALL inline event handlers that could intercept the click
-        // before GUST's listener fires (onclick, onmousedown, etc.)
+        // before Emmet's listener fires (onclick, onmousedown, etc.)
         const evAttrs = [...a.attributes].filter(
           (attr) => attr.name.startsWith("on") || attr.name === "ping", // <a ping> sends beacons on click
         );
@@ -6333,9 +6333,9 @@ parent.postMessage({ t: 'ready' }, '*');
 
         // Rewrite href to absolute URL so resolve() inside the proxy
         // Defuse href at parse-time: store real absolute URL in
-        // data-gust-href and set href=javascript:void(0) so the
+        // data-Emmet-href and set href=javascript:void(0) so the
         // browser can never navigate natively from a click.
-        // The proxy script click handler reads data-gust-href.
+        // The proxy script click handler reads data-Emmet-href.
         const href = a.getAttribute("href");
         if (!href) return;
         if (/^javascript:/i.test(href)) {
@@ -6345,7 +6345,7 @@ parent.postMessage({ t: 'ready' }, '*');
         if (/^(#|mailto:|tel:|data:|blob:)/i.test(href)) return;
         try {
           const abs = new URL(href, url).href;
-          a.setAttribute("data-gust-href", abs);
+          a.setAttribute("data-Emmet-href", abs);
           a.setAttribute("href", "javascript:void(0)");
         } catch {}
       });
@@ -6353,21 +6353,21 @@ parent.postMessage({ t: 'ready' }, '*');
 
       // Insert proxy script as very first child so it runs before any page scripts
       const proxyScript = doc.createElement("script");
-      proxyScript.setAttribute("data-gust-injected", "1");
+      proxyScript.setAttribute("data-Emmet-injected", "1");
       proxyScript.textContent = makeProxyScript(
         url,
         blockEnabled,
-        mediaPref("gust:webrtc:block:v1"),
+        mediaPref("Emmet:webrtc:block:v1"),
         (() => {
           try {
-            return ls.getItem("gust:ua:page:v1") || null;
+            return ls.getItem("Emmet:ua:page:v1") || null;
           } catch {
             return null;
           }
         })(),
         (() => {
           try {
-            return ls.getItem("gust:spellcheck:v1") === "true";
+            return ls.getItem("Emmet:spellcheck:v1") === "true";
           } catch {
             return false;
           }
@@ -6380,16 +6380,16 @@ parent.postMessage({ t: 'ready' }, '*');
 
       // ── Standalone click router ───────────────────────────────────────
       // A minimal self-contained script that handles link clicks using
-      // the data-gust-href attributes set at parse-time above.
+      // the data-Emmet-href attributes set at parse-time above.
       // Runs independently of the main proxy script so link navigation
       // works even if the proxy script has an error.
       const clickRouterScript = doc.createElement("script");
-      clickRouterScript.setAttribute("data-gust-injected", "1");
+      clickRouterScript.setAttribute("data-Emmet-injected", "1");
       clickRouterScript.textContent = `(function(){
   document.addEventListener('click', function(e) {
     var a = e.target && e.target.closest ? e.target.closest('a,area') : null;
     if (!a) return;
-    var dest = a.getAttribute('data-gust-href');
+    var dest = a.getAttribute('data-Emmet-href');
     if (!dest) return;
     e.preventDefault();
     e.stopPropagation();
@@ -6399,7 +6399,7 @@ parent.postMessage({ t: 'ready' }, '*');
   document.addEventListener('submit', function(e) {
     var form = e.target;
     if (!form || form.tagName !== 'FORM') return;
-    var dest = form.getAttribute('data-gust-action') || form.action;
+    var dest = form.getAttribute('data-Emmet-action') || form.action;
     if (!dest || /^(javascript:|blob:|data:)/i.test(dest)) return;
     e.preventDefault();
     e.stopPropagation();
@@ -6730,7 +6730,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
       const highlightStyle = doc.createElement("style");
       highlightStyle.textContent = `
-                        .gust-highlight {
+                        .Emmet-highlight {
                             outline: 2px solid rgba(100, 210, 255, 0.9) !important;
                             outline-offset: 0px !important;
                             box-shadow: inset 0 0 0 9999px rgba(100, 210, 255, 0.12) !important;
@@ -6801,14 +6801,14 @@ parent.postMessage({ t: 'ready' }, '*');
       // ── Fallback retry logic ──────────────────────────────────
       const _fbEnabled = (() => {
         try {
-          return ls.getItem("gust:fallback:enabled") !== "0";
+          return ls.getItem("Emmet:fallback:enabled") !== "0";
         } catch {
           return true;
         }
       })();
       const _fbWisp = (() => {
         try {
-          return ls.getItem("gust:fallback:wisp") || "";
+          return ls.getItem("Emmet:fallback:wisp") || "";
         } catch {
           return "";
         }
@@ -6817,7 +6817,7 @@ parent.postMessage({ t: 'ready' }, '*');
         try {
           return Math.max(
             1,
-            parseInt(ls.getItem("gust:fallback:retries") || "3", 10),
+            parseInt(ls.getItem("Emmet:fallback:retries") || "3", 10),
           );
         } catch {
           return 3;
@@ -6827,7 +6827,7 @@ parent.postMessage({ t: 'ready' }, '*');
         try {
           return Math.max(
             0,
-            parseInt(ls.getItem("gust:fallback:delay") || "3", 10),
+            parseInt(ls.getItem("Emmet:fallback:delay") || "3", 10),
           );
         } catch {
           return 3;
@@ -6835,21 +6835,21 @@ parent.postMessage({ t: 'ready' }, '*');
       })();
       const _fb5xx = (() => {
         try {
-          return ls.getItem("gust:fallback:5xx") !== "0";
+          return ls.getItem("Emmet:fallback:5xx") !== "0";
         } catch {
           return true;
         }
       })();
       const _fbTimeout = (() => {
         try {
-          return ls.getItem("gust:fallback:timeout") !== "0";
+          return ls.getItem("Emmet:fallback:timeout") !== "0";
         } catch {
           return true;
         }
       })();
       const _fbDns = (() => {
         try {
-          return ls.getItem("gust:fallback:dns") === "1";
+          return ls.getItem("Emmet:fallback:dns") === "1";
         } catch {
           return false;
         }
@@ -6877,7 +6877,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
       const _mainRetries = (() => {
         try {
-          return parseInt(ls.getItem("gust:main:retries")) || 3;
+          return parseInt(ls.getItem("Emmet:main:retries")) || 3;
         } catch {
           return 3;
         }
@@ -7157,7 +7157,7 @@ parent.postMessage({ t: 'ready' }, '*');
         errorType = "Connection Interrupted";
         errorCode = "ERR_CONNECTION_ABORTED";
         errorDescription =
-          "The connection to the proxy server was interrupted. GUST will attempt to reconnect automatically on the next request.";
+          "The connection to the proxy server was interrupted. Emmet will attempt to reconnect automatically on the next request.";
         errorSuggestions = [
           "Click the reload button to try again",
           "The proxy server may have briefly disconnected",
@@ -7398,7 +7398,7 @@ parent.postMessage({ t: 'ready' }, '*');
     e.stopPropagation();
     blockEnabled = !blockEnabled;
     try {
-      ls.setItem("gust:block:v1", blockEnabled ? "true" : "false");
+      ls.setItem("Emmet:block:v1", blockEnabled ? "true" : "false");
     } catch {}
     updateAdblockUI();
     if (pageUrl && pageUrl !== HOME_INTERNAL && !isSettingsPage(pageUrl)) {
@@ -7461,13 +7461,13 @@ parent.postMessage({ t: 'ready' }, '*');
       !url ||
       url === HOME_INTERNAL ||
       isSettingsPage(url) ||
-      url.startsWith("gust://")
+      url.startsWith("Emmet://")
     ) {
       iconEl.className = "site-info-icon neutral";
       iconI.className = "fas fa-wind";
-      title.textContent = "Gust Browser";
+      title.textContent = "Emmet Browser";
       subtitle.textContent = "Internal page";
-      hostEl.textContent = "gust://";
+      hostEl.textContent = "Emmet://";
       protoEl.innerHTML = `<span class="ok">Internal</span>`;
       blockEl.innerHTML = `<span style="color:var(--tx3)">N/A</span>`;
       cookieEl.innerHTML = `<span style="color:var(--tx3)">N/A</span>`;
@@ -7607,7 +7607,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
   let recentSites = [];
   try {
-    recentSites = JSON.parse(ls.getItem("gust:recent") || "[]");
+    recentSites = JSON.parse(ls.getItem("Emmet:recent") || "[]");
   } catch {}
   recentSites = recentSites.map((e) =>
     typeof e === "string" ? { url: e, time: Date.now() } : e,
@@ -7617,7 +7617,7 @@ parent.postMessage({ t: 'ready' }, '*');
     if (
       !url ||
       url === HOME_INTERNAL ||
-      url.startsWith("gust://") ||
+      url.startsWith("Emmet://") ||
       isSettingsPage(url)
     )
       return;
@@ -7626,7 +7626,7 @@ parent.postMessage({ t: 'ready' }, '*');
     recentSites.unshift({ url, time: Date.now() });
     recentSites = recentSites.slice(0, 20);
     try {
-      ls.setItem("gust:recent", JSON.stringify(recentSites));
+      ls.setItem("Emmet:recent", JSON.stringify(recentSites));
     } catch {}
   }
 
@@ -7717,7 +7717,7 @@ parent.postMessage({ t: 'ready' }, '*');
   $("historyClear").onclick = () => {
     recentSites = [];
     try {
-      ls.removeItem("gust:recent");
+      ls.removeItem("Emmet:recent");
     } catch {}
     showHistoryPopup();
   };
@@ -7772,7 +7772,7 @@ parent.postMessage({ t: 'ready' }, '*');
   let _totalFetches = 0,
     _totalBytes = 0,
     _cacheHits = 0;
-  const _origQueueFetch = window.__gustMetricHook;
+  const _origQueueFetch = window.__EmmetMetricHook;
 
   async function refreshMetrics() {
     const uptime = Date.now() - metricsStartTime;
@@ -7955,7 +7955,7 @@ parent.postMessage({ t: 'ready' }, '*');
   document.querySelectorAll(".settings-nav-item").forEach((navBtn) => {
     navBtn.addEventListener("click", () => {
       const section = navBtn.dataset.section;
-      const settingsUrl = `gust://settings/${section}`;
+      const settingsUrl = `Emmet://settings/${section}`;
       urlInput.value = settingsUrl;
       pageUrl = settingsUrl;
       setTabTitle(
@@ -8014,7 +8014,7 @@ parent.postMessage({ t: 'ready' }, '*');
       bookmarksWrap.classList.add("hidden");
       if (showBookmarksBtn) showBookmarksBtn.style.display = "grid";
       try {
-        ls.setItem("gust:bookmarksbar:v1", "false");
+        ls.setItem("Emmet:bookmarksbar:v1", "false");
       } catch (_) {}
     };
   }
@@ -8023,7 +8023,7 @@ parent.postMessage({ t: 'ready' }, '*');
       bookmarksWrap.classList.remove("hidden");
       showBookmarksBtn.style.display = "none";
       try {
-        ls.setItem("gust:bookmarksbar:v1", "true");
+        ls.setItem("Emmet:bookmarksbar:v1", "true");
       } catch (_) {}
     };
   }
@@ -8083,7 +8083,7 @@ parent.postMessage({ t: 'ready' }, '*');
         e.stopPropagation();
         selectedEngine = btn.dataset.engine;
         try {
-          ls.setItem("gust:engine:v1", selectedEngine);
+          ls.setItem("Emmet:engine:v1", selectedEngine);
         } catch {}
         ntEngineLabel.textContent = btn.textContent;
 
@@ -8119,7 +8119,7 @@ parent.postMessage({ t: 'ready' }, '*');
   if (ntGithubBtn)
     ntGithubBtn.onclick = () =>
       window.open(
-        "https://github.com/nautilus-os/GUST",
+        "https://github.com/nautilus-os/Emmet",
         "_blank",
         "noopener,noreferrer",
       );
@@ -8293,9 +8293,9 @@ parent.postMessage({ t: 'ready' }, '*');
     log("Starting...");
 
     try {
-      if (!ls.getItem("gust:initialized:v1")) {
+      if (!ls.getItem("Emmet:initialized:v1")) {
         ls.clear();
-        ls.setItem("gust:initialized:v1", "1");
+        ls.setItem("Emmet:initialized:v1", "1");
       }
     } catch (e) {}
 
@@ -8305,7 +8305,7 @@ parent.postMessage({ t: 'ready' }, '*');
       loadTabCacheEnabled();
 
       try {
-        const saved = ls.getItem("gust:fontsize:v1");
+        const saved = ls.getItem("Emmet:fontsize:v1");
         if (saved !== null) {
           applyFontSize(parseInt(saved));
         }
@@ -8339,7 +8339,7 @@ parent.postMessage({ t: 'ready' }, '*');
         if (selectedEngine === "google" || selectedEngine === "ddg") {
           selectedEngine = "brave";
           try {
-            ls.setItem("gust:engine:v1", "brave");
+            ls.setItem("Emmet:engine:v1", "brave");
           } catch {}
         }
         const engineNames = { brave: "Brave", bing: "Bing" };
@@ -8408,7 +8408,7 @@ parent.postMessage({ t: 'ready' }, '*');
         );
       } catch (e) {
         const reason = e.message || "Unknown error";
-        console.error("[GUST] libcurl failed to initialize:", reason, e);
+        console.error("[Emmet] libcurl failed to initialize:", reason, e);
         log("libcurl failed to initialize: " + reason, "err");
         log("Waiting for user to choose how to proceed...", "warn");
         await showOverlayError(reason);
@@ -8436,10 +8436,10 @@ parent.postMessage({ t: 'ready' }, '*');
           showNewTab(false);
         } else if (activeTab && isSettingsPage(activeTab.url)) {
           const section =
-            activeTab.url.replace("gust://settings/", "") || "connection";
+            activeTab.url.replace("Emmet://settings/", "") || "connection";
           showSettingsPage(
             false,
-            section === "gust://settings" ? "connection" : section,
+            section === "Emmet://settings" ? "connection" : section,
           );
         }
       } else {
@@ -8470,8 +8470,8 @@ parent.postMessage({ t: 'ready' }, '*');
     const settingsEl = $("settingsPage");
     if (!settingsEl) return;
 
-    if (!section && pageUrl && pageUrl.startsWith("gust://settings/")) {
-      section = pageUrl.replace("gust://settings/", "");
+    if (!section && pageUrl && pageUrl.startsWith("Emmet://settings/")) {
+      section = pageUrl.replace("Emmet://settings/", "");
     }
     if (!section) section = "connection";
 
@@ -8481,7 +8481,7 @@ parent.postMessage({ t: 'ready' }, '*');
     overlay.classList.add("hidden");
     if (progressWrap) progressWrap.classList.add("hidden");
 
-    const settingsUrl = `gust://settings/${section}`;
+    const settingsUrl = `Emmet://settings/${section}`;
     urlInput.value = settingsUrl;
     pageUrl = settingsUrl;
     currentDoc = null;
@@ -8573,7 +8573,7 @@ parent.postMessage({ t: 'ready' }, '*');
       btn.onclick = () => {
         selectedEngine = eng.key;
         try {
-          ls.setItem("gust:engine:v1", selectedEngine);
+          ls.setItem("Emmet:engine:v1", selectedEngine);
         } catch {}
         if (ntEngineLabel) ntEngineLabel.textContent = eng.name;
         renderEngineButtons();
@@ -8612,7 +8612,7 @@ parent.postMessage({ t: 'ready' }, '*');
           return;
         }
         try {
-          ls.setItem("gust:wisp:v1", val);
+          ls.setItem("Emmet:wisp:v1", val);
           showStatusMsg(wispStatus, "Saved — applying...", "ok");
           await applyWispUrl(val);
           showStatusMsg(wispStatus, "Saved & connected!", "ok");
@@ -8626,7 +8626,7 @@ parent.postMessage({ t: 'ready' }, '*');
         const defaultWisp = "wss://wisp.rhw.one/wisp/";
         wispInput.value = defaultWisp;
         try {
-          ls.setItem("gust:wisp:v1", defaultWisp);
+          ls.setItem("Emmet:wisp:v1", defaultWisp);
           showStatusMsg(wispStatus, "Reset — applying...", "ok");
           await applyWispUrl(defaultWisp);
           showStatusMsg(wispStatus, "Reset & connected!", "ok");
@@ -8696,8 +8696,8 @@ parent.postMessage({ t: 'ready' }, '*');
         MAX_CONCURRENT = _idleVal;
         MAX_CONCURRENT_ACTIVE = _activeVal;
         try {
-          ls.setItem("gust:idlethreads:v1", _idleVal);
-          ls.setItem("gust:activethreads:v1", _activeVal);
+          ls.setItem("Emmet:idlethreads:v1", _idleVal);
+          ls.setItem("Emmet:activethreads:v1", _activeVal);
           showStatusMsg(
             threadsStatus,
             `Saved - idle: ${_idleVal}, active: ${_activeVal}`,
@@ -8716,8 +8716,8 @@ parent.postMessage({ t: 'ready' }, '*');
         MAX_CONCURRENT_ACTIVE = 6;
         updateThreadDisplays();
         try {
-          ls.removeItem("gust:idlethreads:v1");
-          ls.removeItem("gust:activethreads:v1");
+          ls.removeItem("Emmet:idlethreads:v1");
+          ls.removeItem("Emmet:activethreads:v1");
         } catch {}
         showStatusMsg(
           threadsStatus,
@@ -8785,7 +8785,7 @@ parent.postMessage({ t: 'ready' }, '*');
     const fontReset = $("settingsFontReset");
     if (fontSlider) {
       try {
-        const saved = ls.getItem("gust:fontsize:v1");
+        const saved = ls.getItem("Emmet:fontsize:v1");
         if (saved !== null) {
           const size = parseInt(saved);
           fontSlider.value = size;
@@ -8797,7 +8797,7 @@ parent.postMessage({ t: 'ready' }, '*');
         const size = parseInt(fontSlider.value);
         applyFontSize(size);
         try {
-          ls.setItem("gust:fontsize:v1", size.toString());
+          ls.setItem("Emmet:fontsize:v1", size.toString());
         } catch (e) {}
       };
     }
@@ -8806,7 +8806,7 @@ parent.postMessage({ t: 'ready' }, '*');
         if (fontSlider) fontSlider.value = 5;
         applyFontSize(5);
         try {
-          ls.setItem("gust:fontsize:v1", "5");
+          ls.setItem("Emmet:fontsize:v1", "5");
         } catch (e) {}
       };
     }
@@ -8830,7 +8830,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
     const panelsLeftSwitch = $("settingsPanelsLeftSwitch");
     if (panelsLeftSwitch) {
-      const plKey = "gust:panelsleft";
+      const plKey = "Emmet:panelsleft";
       let plOn = false;
       try {
         plOn = ls.getItem(plKey) === "1";
@@ -8847,7 +8847,7 @@ parent.postMessage({ t: 'ready' }, '*');
     }
     const bookmarksBarSwitch = $("settingsBookmarksBarSwitch");
     if (bookmarksBarSwitch) {
-      const bmBarKey = "gust:bookmarksbar:v1";
+      const bmBarKey = "Emmet:bookmarksbar:v1";
       const bmBarOn = ls.getItem(bmBarKey) !== "false";
       bookmarksBarSwitch.classList.toggle("on", bmBarOn);
       if (bookmarksEl) bookmarksWrap.classList.toggle("hidden", !bmBarOn);
@@ -8901,7 +8901,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
     const clockSwitch = $("settingsClockSwitch");
     if (clockSwitch) {
-      const clockKey = "gust:showclock:v1";
+      const clockKey = "Emmet:showclock:v1";
       const clockOn = ls.getItem(clockKey) !== "false";
       clockSwitch.classList.toggle("on", clockOn);
       const header = document.querySelector(".nt-header");
@@ -8918,7 +8918,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
     const clock24Switch = $("settings24hrSwitch");
     if (clock24Switch) {
-      const key24 = "gust:24hrclock:v1";
+      const key24 = "Emmet:24hrclock:v1";
       const is24 = ls.getItem(key24) === "true";
       clock24Switch.classList.toggle("on", is24);
       clock24Switch.onclick = () => {
@@ -9032,7 +9032,7 @@ parent.postMessage({ t: 'ready' }, '*');
     }
     function applySavedLanguage() {
       try {
-        var code = ls.getItem("gust:language:v1");
+        var code = ls.getItem("Emmet:language:v1");
         var lang =
           code && code.trim() !== "" ? code : navigator.language || "en";
         if (lang.length > 2) lang = lang.substring(0, 2);
@@ -9047,7 +9047,7 @@ parent.postMessage({ t: 'ready' }, '*');
     applySavedLanguage();
     setTimeout(function () {
       try {
-        var code = ls.getItem("gust:language:v1");
+        var code = ls.getItem("Emmet:language:v1");
         if (code && code.trim() !== "" && code.trim() !== "en") {
           var lang =
             code.trim().length >= 2 ? code.trim().substring(0, 2) : code.trim();
@@ -9057,14 +9057,14 @@ parent.postMessage({ t: 'ready' }, '*');
     }, 2000);
     if (langSelect) {
       try {
-        const saved = ls.getItem("gust:language:v1");
+        const saved = ls.getItem("Emmet:language:v1");
         if (saved) langSelect.value = saved;
       } catch (_) {}
     }
     if (langSave && langSelect) {
       langSave.onclick = () => {
         try {
-          ls.setItem("gust:language:v1", langSelect.value);
+          ls.setItem("Emmet:language:v1", langSelect.value);
           applySavedLanguage();
           if (langStatus)
             showStatusMsg(langStatus, "Language preference saved!", "ok");
@@ -9155,7 +9155,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
     const spellSwitch = $("settingsSpellSwitch");
     if (spellSwitch) {
-      const spellKey = "gust:spellcheck:v1";
+      const spellKey = "Emmet:spellcheck:v1";
       const spellOn = ls.getItem(spellKey) === "true";
       spellSwitch.classList.toggle("on", spellOn);
       document
@@ -9171,7 +9171,7 @@ parent.postMessage({ t: 'ready' }, '*');
           .forEach((el) => (el.spellcheck = nowOn));
         try {
           frame.contentWindow?.postMessage(
-            { type: "gust:spellcheck", enabled: nowOn },
+            { type: "Emmet:spellcheck", enabled: nowOn },
             "*",
           );
         } catch (_) {}
@@ -9180,30 +9180,30 @@ parent.postMessage({ t: 'ready' }, '*');
 
     // ── Files & Media settings wiring ──────────────────────────
     const _mediaSwitches = [
-      { id: "mediaPdfSwitch", key: "gust:media:pdf:v1", defaultOn: true },
-      { id: "mediaImgSwitch", key: "gust:media:img:v1", defaultOn: true },
-      { id: "mediaVideoSwitch", key: "gust:media:video:v1", defaultOn: true },
-      { id: "mediaAudioSwitch", key: "gust:media:audio:v1", defaultOn: true },
-      { id: "mediaTextSwitch", key: "gust:media:text:v1", defaultOn: true },
+      { id: "mediaPdfSwitch", key: "Emmet:media:pdf:v1", defaultOn: true },
+      { id: "mediaImgSwitch", key: "Emmet:media:img:v1", defaultOn: true },
+      { id: "mediaVideoSwitch", key: "Emmet:media:video:v1", defaultOn: true },
+      { id: "mediaAudioSwitch", key: "Emmet:media:audio:v1", defaultOn: true },
+      { id: "mediaTextSwitch", key: "Emmet:media:text:v1", defaultOn: true },
       {
         id: "mediaDownloadSwitch",
-        key: "gust:media:download:v1",
+        key: "Emmet:media:download:v1",
         defaultOn: false,
       },
-      { id: "mediaRangeSwitch", key: "gust:media:range:v1", defaultOn: true },
+      { id: "mediaRangeSwitch", key: "Emmet:media:range:v1", defaultOn: true },
       {
         id: "mediaHeadersSwitch",
-        key: "gust:media:headers:v1",
+        key: "Emmet:media:headers:v1",
         defaultOn: true,
       },
       {
         id: "webrtcBlockSwitch",
-        key: "gust:webrtc:block:v1",
+        key: "Emmet:webrtc:block:v1",
         defaultOn: false,
       },
       {
         id: "faviconProxySwitch",
-        key: "gust:favicon-proxy:v1",
+        key: "Emmet:favicon-proxy:v1",
         defaultOn: false,
       },
     ];
@@ -9238,7 +9238,7 @@ parent.postMessage({ t: 'ready' }, '*');
   function showTooltip(el, text) {
     if (tooltipEl) tooltipEl.remove();
     tooltipEl = document.createElement("div");
-    tooltipEl.className = "gust-tooltip";
+    tooltipEl.className = "Emmet-tooltip";
     tooltipEl.textContent = text;
     document.body.appendChild(tooltipEl);
 
@@ -9388,7 +9388,7 @@ parent.postMessage({ t: 'ready' }, '*');
             const name = shortcutNames[scIdx];
             if (!name) return;
             try {
-              ls.removeItem("gust:sc:" + name);
+              ls.removeItem("Emmet:sc:" + name);
             } catch (e) {}
             const codeEl = document.querySelector(
               '.shortcut-display[data-shortcut="' + name + '"]',
@@ -9403,7 +9403,7 @@ parent.postMessage({ t: 'ready' }, '*');
       });
     shortcutNames.forEach((name, i) => {
       try {
-        const saved = ls.getItem("gust:sc:" + name);
+        const saved = ls.getItem("Emmet:sc:" + name);
         if (saved) {
           const codeEl = document.querySelector(
             '.shortcut-display[data-shortcut="' + name + '"]',
@@ -9441,7 +9441,7 @@ parent.postMessage({ t: 'ready' }, '*');
       return;
     }
     try {
-      ls.setItem("gust:sc:" + editingShortcut, capturedKey);
+      ls.setItem("Emmet:sc:" + editingShortcut, capturedKey);
     } catch (e) {}
     const codeEl = document.querySelector(
       '.shortcut-display[data-shortcut="' + editingShortcut + '"]',
@@ -9894,7 +9894,7 @@ parent.postMessage({ t: 'ready' }, '*');
     for (const [name, def] of Object.entries(SC_DEFAULTS)) {
       let key = def;
       try {
-        key = ls.getItem("gust:sc:" + name) || def;
+        key = ls.getItem("Emmet:sc:" + name) || def;
       } catch (e) {}
       scMap[key.toUpperCase()] = name;
     }
@@ -9908,7 +9908,7 @@ parent.postMessage({ t: 'ready' }, '*');
     if (modal && modal.style.display === "flex") return;
     let scEnabled = true;
     try {
-      if (ls.getItem("gust:shortcutsEnabled") === "0") scEnabled = false;
+      if (ls.getItem("Emmet:shortcutsEnabled") === "0") scEnabled = false;
     } catch (e) {}
     if (!scEnabled) return;
 
@@ -9922,13 +9922,13 @@ parent.postMessage({ t: 'ready' }, '*');
     }
   });
 
-  const TUTORIAL_KEY = "gust:tutorial:v1";
+  const TUTORIAL_KEY = "Emmet:tutorial:v1";
 
   const tutSteps = [
     {
       target: null,
       icon: '<i class="fas fa-wind"></i>',
-      title: "Welcome to GUST",
+      title: "Welcome to Emmet",
       body: "A fast, private browser by Nautilus Labs. This tour covers all the key controls and takes under a minute. Restart anytime from Settings.",
       pos: "center",
     },
@@ -9965,7 +9965,7 @@ parent.postMessage({ t: 'ready' }, '*');
       target: "#blockToggle",
       icon: '<i class="fas fa-shield-halved"></i>',
       title: "Ad and Tracker Blocking",
-      body: "GUST blocks ads and trackers by default. The badge shows your current status. Click on it to toggle it off if a site is not loading correctly.",
+      body: "Emmet blocks ads and trackers by default. The badge shows your current status. Click on it to toggle it off if a site is not loading correctly.",
       pos: "below-left",
     },
     {
@@ -10000,7 +10000,7 @@ parent.postMessage({ t: 'ready' }, '*');
       target: "#settingsBtn",
       icon: '<i class="fas fa-gear"></i>',
       title: "Settings",
-      body: "Configure the WISP server, search engine, wallpaper, font size, cache, shortcuts and more. You can also read about Gust or restart the tutorial from here.",
+      body: "Configure the WISP server, search engine, wallpaper, font size, cache, shortcuts and more. You can also read about Emmet or restart the tutorial from here.",
       pos: "below-left",
     },
     {
@@ -10032,7 +10032,7 @@ parent.postMessage({ t: 'ready' }, '*');
       target: "#ntGithubBtn",
       icon: '<i class="fab fa-github"></i>',
       title: "GitHub",
-      body: "GUST is open source. Click to view the repository, report issues, or contribute.",
+      body: "Emmet is open source. Click to view the repository, report issues, or contribute.",
       pos: "above",
       requiresNewTab: true,
     },
@@ -10040,7 +10040,7 @@ parent.postMessage({ t: 'ready' }, '*');
       target: null,
       icon: '<i class="fas fa-check-circle"></i>',
       title: "You're all set!",
-      body: "That's the full tour. GUST is built for speed and privacy. Restart this tour anytime from Settings then Tutorial.",
+      body: "That's the full tour. Emmet is built for speed and privacy. Restart this tour anytime from Settings then Tutorial.",
       pos: "center",
     },
   ];
@@ -10091,8 +10091,8 @@ parent.postMessage({ t: 'ready' }, '*');
       ls.setItem(TUTORIAL_KEY, "done");
     } catch (e) {}
 
-    _gustAnimLocked = false;
-    playGustAnimation(400);
+    _EmmetAnimLocked = false;
+    playEmmetAnimation(400);
     const sr = document.getElementById("spotRect");
     if (sr) {
       sr.setAttribute("width", "0");
@@ -10415,10 +10415,10 @@ parent.postMessage({ t: 'ready' }, '*');
     if (ts) ts.addEventListener("click", endTutorial);
   });
 
-  window.__gustStartTutorial = () => startTutorial(true);
+  window.__EmmetStartTutorial = () => startTutorial(true);
 
   try {
-    if (ls.getItem("gust:panelsleft") === "1") {
+    if (ls.getItem("Emmet:panelsleft") === "1") {
       document.body.classList.add("panels-left");
     }
   } catch (e) {}
@@ -10462,7 +10462,7 @@ parent.postMessage({ t: 'ready' }, '*');
 
   try {
     if (ls.getItem(TUTORIAL_KEY) !== "done") {
-      _gustAnimLocked = true;
+      _EmmetAnimLocked = true;
     }
   } catch (e) {}
 
@@ -10529,7 +10529,7 @@ parent.postMessage({ t: 'ready' }, '*');
   (function () {
     let autoFS = true;
     try {
-      if (ls.getItem("gust:autoFullscreen") === "0") autoFS = false;
+      if (ls.getItem("Emmet:autoFullscreen") === "0") autoFS = false;
     } catch (e) {}
     if (!autoFS) return;
 
@@ -10563,14 +10563,14 @@ parent.postMessage({ t: 'ready' }, '*');
       }
     };
     try {
-      applyScState(ls.getItem("gust:shortcutsEnabled") !== "0");
+      applyScState(ls.getItem("Emmet:shortcutsEnabled") !== "0");
     } catch (e) {
       applyScState(true);
     }
     scSw.addEventListener("click", () => {
       const isOn = scSw.classList.toggle("on");
       try {
-        ls.setItem("gust:shortcutsEnabled", isOn ? "1" : "0");
+        ls.setItem("Emmet:shortcutsEnabled", isOn ? "1" : "0");
       } catch (e) {}
       applyScState(isOn);
     });
@@ -10581,13 +10581,13 @@ parent.postMessage({ t: 'ready' }, '*');
     const sw = document.getElementById("settingsAutoFullscreenSwitch");
     if (!sw) return;
     try {
-      if (ls.getItem("gust:autoFullscreen") === "0") sw.classList.remove("on");
+      if (ls.getItem("Emmet:autoFullscreen") === "0") sw.classList.remove("on");
       else sw.classList.add("on");
     } catch (e) {}
     sw.addEventListener("click", () => {
       const isOn = sw.classList.toggle("on");
       try {
-        ls.setItem("gust:autoFullscreen", isOn ? "1" : "0");
+        ls.setItem("Emmet:autoFullscreen", isOn ? "1" : "0");
       } catch (e) {}
     });
   }, 400);
@@ -10599,10 +10599,10 @@ parent.postMessage({ t: 'ready' }, '*');
   setTimeout(() => {
     // Toggle switches
     const fallbackSwitches = [
-      { id: "fallbackEnabledSwitch", key: "gust:fallback:enabled", def: "1" },
-      { id: "fallback5xxSwitch", key: "gust:fallback:5xx", def: "1" },
-      { id: "fallbackTimeoutSwitch", key: "gust:fallback:timeout", def: "1" },
-      { id: "fallbackDnsSwitch", key: "gust:fallback:dns", def: "0" },
+      { id: "fallbackEnabledSwitch", key: "Emmet:fallback:enabled", def: "1" },
+      { id: "fallback5xxSwitch", key: "Emmet:fallback:5xx", def: "1" },
+      { id: "fallbackTimeoutSwitch", key: "Emmet:fallback:timeout", def: "1" },
+      { id: "fallbackDnsSwitch", key: "Emmet:fallback:dns", def: "0" },
     ];
     fallbackSwitches.forEach(({ id, key, def }) => {
       const sw = document.getElementById(id);
@@ -10627,15 +10627,15 @@ parent.postMessage({ t: 'ready' }, '*');
     const fbStatus = document.getElementById("settingsFallbackWispStatus");
     if (fbInput) {
       try {
-        fbInput.value = ls.getItem("gust:fallback:wisp") || "";
+        fbInput.value = ls.getItem("Emmet:fallback:wisp") || "";
       } catch (e) {}
     }
     if (fbSave) {
       fbSave.addEventListener("click", () => {
         try {
           const v = fbInput ? fbInput.value.trim() : "";
-          if (v) ls.setItem("gust:fallback:wisp", v);
-          else ls.removeItem("gust:fallback:wisp");
+          if (v) ls.setItem("Emmet:fallback:wisp", v);
+          else ls.removeItem("Emmet:fallback:wisp");
           if (fbStatus) showStatusMsg(fbStatus, "Saved.", "ok");
         } catch (e) {}
       });
@@ -10643,7 +10643,7 @@ parent.postMessage({ t: 'ready' }, '*');
     if (fbReset) {
       fbReset.addEventListener("click", () => {
         try {
-          ls.removeItem("gust:fallback:wisp");
+          ls.removeItem("Emmet:fallback:wisp");
         } catch (e) {}
         if (fbInput) fbInput.value = "";
         if (fbStatus) showStatusMsg(fbStatus, "Cleared.", "ok");
@@ -10691,7 +10691,7 @@ parent.postMessage({ t: 'ready' }, '*');
       "mainRetryMinus",
       "mainRetryPlus",
       "mainRetryVal",
-      "gust:main:retries",
+      "Emmet:main:retries",
       1,
       10,
       "3",
@@ -10700,7 +10700,7 @@ parent.postMessage({ t: 'ready' }, '*');
       "fallbackRetryMinus",
       "fallbackRetryPlus",
       "fallbackRetryVal",
-      "gust:fallback:retries",
+      "Emmet:fallback:retries",
       1,
       10,
       "3",
@@ -10709,7 +10709,7 @@ parent.postMessage({ t: 'ready' }, '*');
       "fallbackDelayMinus",
       "fallbackDelayPlus",
       "fallbackDelayVal",
-      "gust:fallback:delay",
+      "Emmet:fallback:delay",
       0,
       30,
       "3",
@@ -10730,18 +10730,18 @@ parent.postMessage({ t: 'ready' }, '*');
 
     // Populate from storage
     try {
-      reqInput.value = ls.getItem("gust:ua:request:v1") || "";
-      pageInput.value = ls.getItem("gust:ua:page:v1") || "";
+      reqInput.value = ls.getItem("Emmet:ua:request:v1") || "";
+      pageInput.value = ls.getItem("Emmet:ua:page:v1") || "";
     } catch (e) {}
 
     saveBtn.addEventListener("click", () => {
       try {
         const rVal = reqInput.value.trim();
         const pVal = pageInput.value.trim();
-        if (rVal) ls.setItem("gust:ua:request:v1", rVal);
-        else ls.removeItem("gust:ua:request:v1");
-        if (pVal) ls.setItem("gust:ua:page:v1", pVal);
-        else ls.removeItem("gust:ua:page:v1");
+        if (rVal) ls.setItem("Emmet:ua:request:v1", rVal);
+        else ls.removeItem("Emmet:ua:request:v1");
+        if (pVal) ls.setItem("Emmet:ua:page:v1", pVal);
+        else ls.removeItem("Emmet:ua:page:v1");
         if (statusEl) {
           statusEl.textContent = "Saved — reload a page to apply.";
           setTimeout(() => {
@@ -10754,8 +10754,8 @@ parent.postMessage({ t: 'ready' }, '*');
     if (resetBtn) {
       resetBtn.addEventListener("click", () => {
         try {
-          ls.removeItem("gust:ua:request:v1");
-          ls.removeItem("gust:ua:page:v1");
+          ls.removeItem("Emmet:ua:request:v1");
+          ls.removeItem("Emmet:ua:page:v1");
         } catch (e) {}
         reqInput.value = "";
         pageInput.value = "";
